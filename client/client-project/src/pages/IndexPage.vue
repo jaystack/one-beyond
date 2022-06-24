@@ -1,32 +1,26 @@
 <template>
   <div>
-    <q-dialog
-      v-model="isChooseDialogShown"
-      persistent
-      transition-show="scale"
-      transition-hide="scale"
-    >
-      <div class="q-pa-md q-gutter-sm">
-        <q-btn label="WORD" color="white" text-color="black" size="xl" />
-        <q-btn label="WORD" color="white" text-color="black" size="xl" />
-        <q-btn label="WORD" color="white" text-color="black" size="xl" />
-      </div>
-    </q-dialog>
+    <vue-drawing-canvas
+      id="canvas"
+      line-join="round"
+    ></vue-drawing-canvas>
   </div>
 </template>
 
 <script>
-import { Dialog } from 'quasar'
+import { Dialog } from 'quasar';
 import { ref } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
+import VueDrawingCanvas from 'vue-drawing-canvas';
 export default {
   name: 'IndexPage',
-  setup() {
+  components: { VueDrawingCanvas },
+  data(){
     return {
-      isChooseDialogShown: ref(false),
-    };
+      isChooseDialogShown: false
+    }
   },
-  mounted(){
+  mounted() {
     Dialog.create({
       title: 'Prompt',
       message: 'What is your name? (Minimum 3 characters)',
