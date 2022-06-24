@@ -2,6 +2,7 @@ import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
 
 import player from './module-player'
+import message from './module-message'
 
 /*
  * If not building with SSR mode, you can
@@ -15,7 +16,8 @@ import player from './module-player'
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
-      player
+      player,
+      message
     },
 
     // enable strict mode (adds overhead!)

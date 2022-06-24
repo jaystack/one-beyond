@@ -11,7 +11,7 @@ export function join({ commit }, payload) {
 export function getPlayers({ commit }, payload) {
   try {
     socket.emit("getPlayers", payload, (response) => {
-      console.log(response);
+      commit('getPlayers', response);
     });
   } catch (error) {
     commit("loading", false);

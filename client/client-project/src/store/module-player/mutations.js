@@ -8,14 +8,13 @@ export function joinPlayer(state, payload) {
   if (!payload || payload.error) {
     console.error('OOPS! An error occured.')
   }
-  Object.assign(state, payload);
+  state.player = payload;
 }
 
 export function getPlayers(state, payload) {
-  console.log("getPlayers:", payload);
   state.loading = false;
   if (!payload || payload.error) {
     console.error('OOPS! An error occured.')
   }
-  Object.assign(state, payload);
+  state.players = payload;
 }
