@@ -9,6 +9,7 @@ import { DrawService } from './draw.service';
 import { Server, Socket } from 'socket.io';
 import { Message } from './types/message.entity';
 import { Logger } from '@nestjs/common';
+import { Point } from './types/point.entity';
 
 @WebSocketGateway({
   cors: {
@@ -59,10 +60,18 @@ export class DrawGateway {
 
     this.drawService.startGame();
     this.server.emit('started');
+
     setTimeout(() => {
       Logger.debug('endGame called');
+
       this.drawService.stopGame();
       this.server.emit('stopped');
     }, 80_000);
+  }
+
+  @SubscribeMessage('draw')
+  draw(@MessageBody() payload: Point, @ConnectedSocket() client: Socket) {
+    Logger.debug('draw called');
+    client.broadcast.emit('draw', payload);
   }
 }
