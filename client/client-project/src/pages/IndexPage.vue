@@ -1,9 +1,14 @@
 <template>
   <div>
-    <vue-drawing-canvas
-      line-join="round"
-      ref="VueCanvasDrawing"
-    ></vue-drawing-canvas>
+    <vue-drawing-canvas ref="VueCanvasDrawing" class="whiteboard" line-join="round"></vue-drawing-canvas>
+    <q-btn @click="joinPlayer()">hi</q-btn>
+    <q-dialog v-model="isChooseDialogShown" persistent transition-show="scale" transition-hide="scale">
+      <div class="q-pa-md q-gutter-sm">
+        <q-btn label="WORD" color="white" text-color="black" size="xl" />
+        <q-btn label="WORD" color="white" text-color="black" size="xl" />
+        <q-btn label="WORD" color="white" text-color="black" size="xl" />
+      </div>
+    </q-dialog>
   </div>
 </template>
 
@@ -45,10 +50,20 @@ export default {
       this.getPlayers();
     },
   },
+
   computed: {
     ...mapGetters({
       player: 'player/player',
     }),
+  },
+  setup() {
+    onMounted(() => {
+      const canvas = document.getElementsByClassName('whiteboard')[0];
+      console.log(canvas.getContext('2d'));
+    });
+    return { 
+      isChooseDialogShown: ref(false),
+    };
   },
 };
 </script>
