@@ -22,6 +22,15 @@ export class DrawGateway {
 
   constructor(private readonly drawService: DrawService) {}
 
+  @SubscribeMessage('joinPlayer')
+  joinPlayer(@MessageBody() name: string, @ConnectedSocket() client: Socket) {
+    Logger.debug('joinPlayer called');
+
+    this.drawService.joinPlayer(name, client.id);
+
+    this.server.emit('join', { name });
+  }
+
   @SubscribeMessage('getMessages')
   getMessages() {
     Logger.debug('getMessages called');
@@ -40,23 +49,20 @@ export class DrawGateway {
 
     this.drawService.createMessage(message);
 
+    if (this.drawService.isGameRunning)
+      message.win = this.drawService.answer === message.message;
+
     this.server.emit('message', message);
 
     return message;
   }
 
-  @SubscribeMessage('joinPlayer')
-  joinPlayer(@MessageBody() name: string, @ConnectedSocket() client: Socket) {
-    Logger.debug('joinPlayer called');
-
-    this.drawService.joinPlayer(name, client.id);
-
-    this.server.emit('join', { name });
-  }
-
   @SubscribeMessage('startGame')
-  startGame() {
-    Logger.debug('startGame called');
+  startGame(@ConnectedSocket() client: Socket) {
+    const player = this.drawService.clientToPlayer[client.id];
+    if (player.order !== 1) return;
+
+    Logger.debug('startGame called ' + player.name);
 
     this.drawService.startGame();
     this.server.emit('started');
@@ -67,11 +73,16 @@ export class DrawGateway {
       this.drawService.stopGame();
       this.server.emit('stopped');
     }, 80_000);
-  }
 
+    return this.drawService.answer;
+  }
   @SubscribeMessage('draw')
   draw(@MessageBody() payload: Point, @ConnectedSocket() client: Socket) {
-    Logger.debug('draw called');
+    if (!this.drawService.isGameRunning) return;
+
+    const player = this.drawService.clientToPlayer[client.id];
+
+    Logger.debug('draw called' + player.name);
     client.broadcast.emit('draw', payload);
   }
 }

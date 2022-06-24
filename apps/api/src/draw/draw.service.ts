@@ -10,6 +10,8 @@ export class DrawService {
 
   isGameRunning = false;
 
+  answer = 'ferrari';
+
   startGame() {
     this.isGameRunning = true;
   }
@@ -33,6 +35,11 @@ export class DrawService {
   }
 
   joinPlayer(name: string, clientId: string) {
-    this.clientToPlayer[clientId] = { name, score: 0 };
+    this.clientToPlayer[clientId] = {
+      name,
+      score: 0,
+      order:
+        Math.max(0, ...this.getPlayers().map((player) => player.order)) + 1,
+    };
   }
 }
