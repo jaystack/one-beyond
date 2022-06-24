@@ -8,6 +8,7 @@ import {
 import { DrawService } from './draw.service';
 import { Server, Socket } from 'socket.io';
 import { Message } from './types/message.entity';
+import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({
   cors: {
@@ -22,16 +23,20 @@ export class DrawGateway {
 
   @SubscribeMessage('getMessages')
   getMessages() {
+    Logger.debug('getMessages called');
     return this.drawService.getMessages();
   }
 
   @SubscribeMessage('getPlayers')
   getPlayers() {
+    Logger.debug('getPlayers called');
     return this.drawService.getPlayers();
   }
 
   @SubscribeMessage('createMessage')
   createMessage(@MessageBody() message: Message) {
+    Logger.debug('createMessage called');
+
     this.drawService.createMessage(message);
 
     this.server.emit('message', message);
@@ -41,6 +46,8 @@ export class DrawGateway {
 
   @SubscribeMessage('joinPlayer')
   joinPlayer(@MessageBody() name: string, @ConnectedSocket() client: Socket) {
+    Logger.debug('joinPlayer called');
+
     this.drawService.joinPlayer(name, client.id);
 
     this.server.emit('join', { name });
@@ -48,9 +55,12 @@ export class DrawGateway {
 
   @SubscribeMessage('startGame')
   startGame() {
+    Logger.debug('startGame called');
+
     this.drawService.startGame();
     this.server.emit('started');
     setTimeout(() => {
+      Logger.debug('endGame called');
       this.drawService.stopGame();
       this.server.emit('stopped');
     }, 80_000);
