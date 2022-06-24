@@ -17,11 +17,11 @@
 
     </q-header>
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
+    <q-drawer v-model="leftDrawerOpen" side="left" bordered>
       <!-- drawer content -->
     </q-drawer>
 
-    <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
+    <q-drawer v-model="rightDrawerOpen" side="right" bordered>
       <!-- drawer content -->
     </q-drawer>
 
@@ -44,8 +44,8 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const leftDrawerOpen = ref(false)
-    const rightDrawerOpen = ref(false)
+    const leftDrawerOpen = ref(true)
+    const rightDrawerOpen = ref(true)
 
     return {
       leftDrawerOpen,

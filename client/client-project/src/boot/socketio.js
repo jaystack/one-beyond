@@ -1,7 +1,7 @@
 import io from "socket.io-client";
 import EVENT_TYPES from "../events/index";
 
-const socket = io.connect(process.env.SOCKET_SERVER, {
+const socket = io.connect("http://localhost:3333", {
   reconnectionDelay: 0,
   transports: ["websocket"]
 });
@@ -12,8 +12,7 @@ export default ({ app, router, store, Vue }) => {
       store.commit(EVENT_TYPES[TYPE], payload);
     });
   }
-
-  Vue.prototype.$socket = socket;
+  app.provide('$socket', socket);
 };
 
 export { socket };
