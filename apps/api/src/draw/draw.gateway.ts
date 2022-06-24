@@ -50,7 +50,8 @@ export class DrawGateway {
     this.drawService.createMessage(message);
 
     if (this.drawService.isGameRunning)
-      message.win = this.drawService.answer === message.message;
+      message.win =
+        this.drawService.answer.toLowerCase() === message.message.toLowerCase();
 
     this.server.emit('message', message);
 

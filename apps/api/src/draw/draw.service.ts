@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 import { Message } from './types/message.entity';
 import { Player } from './types/player.entity';
@@ -10,10 +11,11 @@ export class DrawService {
 
   isGameRunning = false;
 
-  answer = 'ferrari';
+  answer = '';
 
   startGame() {
     this.isGameRunning = true;
+    this.answer = faker.word.noun(10);
   }
 
   stopGame() {
