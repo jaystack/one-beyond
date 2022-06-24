@@ -33,12 +33,26 @@ export class DrawGateway {
   @SubscribeMessage('createMessage')
   createMessage(@MessageBody() message: Message) {
     this.drawService.createMessage(message);
+
     this.server.emit('message', message);
+
     return message;
   }
 
   @SubscribeMessage('joinPlayer')
   joinPlayer(@MessageBody() name: string, @ConnectedSocket() client: Socket) {
-    return this.drawService.joinPlayer(name, client.id);
+    this.drawService.joinPlayer(name, client.id);
+
+    this.server.emit('join', { name });
+  }
+
+  @SubscribeMessage('startGame')
+  startGame() {
+    this.drawService.startGame();
+    this.server.emit('started');
+    setTimeout(() => {
+      this.drawService.stopGame();
+      this.server.emit('stopped');
+    }, 80_000);
   }
 }
