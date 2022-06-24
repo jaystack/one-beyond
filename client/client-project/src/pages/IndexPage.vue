@@ -1,8 +1,8 @@
 <template>
   <div>
     <vue-drawing-canvas
-      id="canvas"
       line-join="round"
+      ref="VueCanvasDrawing"
     ></vue-drawing-canvas>
   </div>
 </template>

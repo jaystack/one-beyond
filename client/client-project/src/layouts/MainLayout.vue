@@ -65,7 +65,6 @@ export default {
       create: 'message/createMessage'
     }),
     createMessage(data){
-      console.log('irjad ki',data);
       this.create(data);
     }
   },
