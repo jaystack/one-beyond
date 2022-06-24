@@ -5,7 +5,11 @@ import {
 } from '@nestjs/websockets';
 import { DrawService } from './draw.service';
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
 export class DrawGateway {
   constructor(private readonly drawService: DrawService) {}
 
