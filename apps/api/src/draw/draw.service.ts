@@ -5,7 +5,7 @@ import { Player } from './types/player.entity';
 
 @Injectable()
 export class DrawService {
-  messages: Message[] = [{ name: 'joe', message: 'hello ' }];
+  messages: Message[] = [{ name: 'SAW', message: 'Do you wanna play a game?' }];
 
   clientToPlayer: { [id: string]: Player } = {};
 
