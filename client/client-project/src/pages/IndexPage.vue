@@ -1,7 +1,6 @@
 <template>
   <div>
     <vue-drawing-canvas ref="VueCanvasDrawing" class="whiteboard" line-join="round"></vue-drawing-canvas>
-    <q-btn @click="joinPlayer()">hi</q-btn>
     <q-dialog v-model="isChooseDialogShown" persistent transition-show="scale" transition-hide="scale">
       <div class="q-pa-md q-gutter-sm">
         <q-btn label="WORD" color="white" text-color="black" size="xl" />
@@ -14,17 +13,12 @@
 
 <script>
 import { Dialog } from 'quasar';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import VueDrawingCanvas from 'vue-drawing-canvas';
 export default {
   name: 'IndexPage',
   components: { VueDrawingCanvas },
-  data(){
-    return {
-      isChooseDialogShown: false
-    }
-  },
   mounted() {
     Dialog.create({
       title: 'Prompt',
