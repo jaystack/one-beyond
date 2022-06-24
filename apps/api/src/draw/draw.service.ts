@@ -5,16 +5,27 @@ import { Player } from './types/player.entity';
 @Injectable()
 export class DrawService {
   messages: Message[] = [{ name: 'joe', message: 'hello ' }];
-  players: Player[] = [{ name: 'joe', score: 0 }];
 
-  clientToPlayer = {};
+  clientToPlayer: { [id: string]: Player } = {};
+
+  isGameRunning = false;
+
+  startGame() {
+    this.isGameRunning = true;
+  }
+
+  stopGame() {
+    this.isGameRunning = false;
+  }
 
   getMessages() {
     return this.messages;
   }
 
   getPlayers() {
-    return this.players;
+    return Object.keys(this.clientToPlayer).map(
+      (clientId) => this.clientToPlayer[clientId]
+    );
   }
 
   createMessage(message: Message) {
@@ -22,7 +33,6 @@ export class DrawService {
   }
 
   joinPlayer(name: string, clientId: string) {
-    this.clientToPlayer[clientId] = name;
-    this.players.push({ name, score: 0 });
+    this.clientToPlayer[clientId] = { name, score: 0 };
   }
 }
