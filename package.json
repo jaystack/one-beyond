@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
+    "start:api": "nx serve api",
+    "start:client": "cd client/client-project && npx quasar dev",
     "build": "nx build",
     "test": "nx test"
   },
@@ -11,6 +12,7 @@
   "dependencies": {
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/mapped-types": "^1.0.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/platform-socket.io": "^8.4.7",
     "@nestjs/websockets": "^8.4.7",
